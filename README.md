@@ -96,6 +96,12 @@ npm install
 cp .env.example .env
 # Edit .env with your database credentials
 
+# SSL Certificate (for AWS RDS or SSL-enabled PostgreSQL)
+# Download the AWS RDS certificate bundle:
+# https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html#UsingWithRDS.SSL.CertificatesDownload
+# For ap-southeast-1 region, place the certificate as:
+# backend/ap-southeast-1-bundle.pem
+
 # Run migrations
 npm run migration:run
 
@@ -104,6 +110,13 @@ npm run start:dev
 ```
 
 The backend will be running at `http://localhost:3001`
+
+**Note on SSL Certificates:**
+- The backend requires an SSL certificate for secure database connections (AWS RDS, production databases)
+- Download the appropriate regional bundle from AWS RDS documentation
+- Place it in `backend/ap-southeast-1-bundle.pem` (or update the path in `backend/data-source.ts`)
+- The `.pem` file is gitignored for security - each environment needs its own copy
+- For local development without SSL, you can comment out the `ssl` config in `backend/data-source.ts`
 
 #### 3. Frontend Setup
 

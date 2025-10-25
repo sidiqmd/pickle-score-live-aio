@@ -1,5 +1,7 @@
 import { DataSource } from 'typeorm';
 import * as dotenv from 'dotenv';
+import * as fs from 'fs';
+import * as path from 'path';
 import { Match } from './src/entities/match.entity';
 import { Player } from './src/entities/player.entity';
 import { Game } from './src/entities/game.entity';
@@ -18,4 +20,8 @@ export const AppDataSource = new DataSource({
   migrations: ['src/migrations/*.ts'],
   synchronize: false,
   logging: false,
+  ssl: {
+    rejectUnauthorized: true,
+    ca: fs.readFileSync(path.join(__dirname, 'ap-southeast-1-bundle.pem')).toString(),
+  },
 });

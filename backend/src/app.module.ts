@@ -9,6 +9,8 @@ import { MatchService } from './services/match.service';
 import { GameService } from './services/game.service';
 import { MatchController } from './controllers/match.controller';
 import { GameController, MatchGameController } from './controllers/game.controller';
+import * as fs from 'fs';
+import * as path from 'path';
 
 @Module({
   imports: [
@@ -26,6 +28,10 @@ import { GameController, MatchGameController } from './controllers/game.controll
         database: configService.get('DATABASE_NAME', 'pickle_score'),
         entities: [Match, Player, Game, GameEvent],
         synchronize: configService.get('NODE_ENV') === 'development',
+        ssl: {
+          rejectUnauthorized: true,
+          ca: fs.readFileSync(path.join(process.cwd(), 'ap-southeast-1-bundle.pem')).toString(),
+        },
       }),
       inject: [ConfigService],
     }),
